@@ -1,4 +1,14 @@
-- name: Docker Compose Action
-  uses: isbang/compose-action@v1.4.1
-  with:
-      compose-file: "./docker-compose.yml"
+name: Docker Compose Up
+on:
+  push:
+    branches: [ main ]
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v2
+    - name: Docker Compose Action
+      uses: isbang/compose-action@v1.4.1
+      with:
+          compose-file: "./docker-compose.yml"
+    
