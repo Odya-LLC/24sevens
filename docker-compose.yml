@@ -39,6 +39,7 @@ services:
       - 1338:81
     depends_on:
       - backend
+      - frontend
     networks:
       - nginx_network
 volumes:
