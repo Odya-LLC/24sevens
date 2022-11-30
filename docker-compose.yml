@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    command: gunicorn --config gunicorn.py manage:app
+    volumes:
+      - ./backend/:/usr/src/app/
+    environment:
+      - DB_USER=u24sevens
+      - DB_PASS=u24sevens
+      - DB_NAME=db24sevens
+      - DB_HOST=db
+      - DB_PORT=5432
+    depends_on:
+      - db
+    networks:
+      - nginx_network
+  frontend:
+    build: ./frontend
+    volumes:
+      - ./frontend/:/usr/src/frontend/
+    networks:
+      - nginx_network
+  db:
+    image: postgres:13-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=u24sevens
+      - POSTGRES_PASSWORD=u24sevens
+      - POSTGRES_DB=db24sevens
+    networks:
+      - nginx_network
+  nginx:
+    build: ./nginx
+    ports:
+      - 1337:80
+      - 1338:81
+    depends_on:
+      - backend
+    networks:
+      - nginx_network
+volumes:
+  postgres_data:
+
+networks:
+  nginx_network:

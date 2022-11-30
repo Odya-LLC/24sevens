@@ -1,0 +1,4 @@
+flask-sqlalchemy
+gunicorn
+pip-chill
+psycopg2-binary
